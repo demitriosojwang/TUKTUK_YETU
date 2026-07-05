@@ -1,0 +1,147 @@
+// TUKTUK YETU — Prisma schema
+// Kenyan electric tuk tuk fare collection platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ===== Regions (Nairobi, Mombasa South Coast, etc.) =====
+model Region {
+  id          String   @id @default(cuid())
+  name        String   @unique            // e.g. "Nairobi", "Mombasa South Coast"
+  city        String                        // e.g. "Nairobi", "Mombasa"
+  description String?
+  saccos      Sacco[]
+  routes      Route[]
+  vehicles    Vehicle[]
+  createdAt   DateTime @default(now())
+
+  @@map("regions")
+}
+
+// ===== SACCOs (driver/owner cooperatives, e.g. Likoni TukTuk Owners & Drivers SACCO) =====
+model Sacco {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  shortName   String?                       // e.g. "LITOD"
+  phone       String?
+  boxOffice   String?                       // postal address
+  chairman    String?
+  chairmanPhone String?
+  regionId    String
+  region      Region   @relation(fields: [regionId], references: [id])
+  vehicles    Vehicle[]
+  createdAt   DateTime @default(now())
+
+  @@map("saccos")
+}
+
+// ===== Vehicles (electric tuk tuks) =====
+model Vehicle {
+  id             String   @id @default(cuid())
+  plate          String   @unique           // e.g. "KDB 112T"
+  model          String   @default("Roam ET3")
+  batteryPct     Int      @default(100)     // current charge %
+  isElectric     Boolean  @default(true)
+  purchasePrice  Int      @default(420000)  // KES
+  loanOutstanding Int     @default(312000)  // KES
+  weeklyRepayment Int     @default(2600)    // KES
+  status         String   @default("active") // active | service | offline
+  regionId       String
+  region         Region   @relation(fields: [regionId], references: [id])
+  saccoId        String?
+  sacco          Sacco?   @relation(fields: [saccoId], references: [id])
+  driverId       String?  @unique
+  driver         Driver?  @relation(fields: [driverId], references: [id])
+  routeId        String?
+  route          Route?   @relation(fields: [routeId], references: [id])
+  trips          Trip[]
+  createdAt      DateTime @default(now())
+
+  @@map("vehicles")
+}
+
+// ===== Drivers =====
+model Driver {
+  id          String   @id @default(cuid())
+  name        String
+  phone       String   @unique
+  rating      Float    @default(4.8)
+  pin         String   @default("1234")  // simple demo PIN for driver login
+  vehicle     Vehicle?
+  trips       Trip[]
+  createdAt   DateTime @default(now())
+
+  @@map("drivers")
+}
+
+// ===== Routes (route a vehicle drives, e.g. CBD–Eastleigh loop, Ferry–UKunda) =====
+model Route {
+  id          String   @id @default(cuid())
+  name        String                       // e.g. "Ferry - Ukunda Run"
+  description String?
+  baseFare    Int                          // KES — minimum fare
+  regionId    String
+  region      Region   @relation(fields: [regionId], references: [id])
+  stages      Stage[]
+  vehicles    Vehicle[]
+
+  @@map("routes")
+}
+
+// ===== Stages (named or landmark stops along a route) =====
+// Some stages have official names; many matatu stages are landmarks the
+// driver knows ("Mama Otieno Kiosk", "After Blue House"). We support both.
+model Stage {
+  id          String   @id @default(cuid())
+  routeId     String
+  route       Route    @relation(fields: [routeId], references: [id])
+  name        String                       // what the driver calls it
+  isLandmark  Boolean  @default(false)     // true = unofficial stage (no formal name)
+  fareFromBase Int                        // KES fare from route origin to this stage
+  order       Int                          // sequence on the route
+  trips       PassengerTrip[]
+
+  @@map("stages")
+}
+
+// ===== Trips (a vehicle's run — one loop or shift session) =====
+model Trip {
+  id          String   @id @default(cuid())
+  vehicleId   String
+  vehicle     Vehicle  @relation(fields: [vehicleId], references: [id])
+  driverId    String
+  driver      Driver   @relation(fields: [driverId], references: [id])
+  startedAt   DateTime @default(now())
+  endedAt     DateTime?
+  status      String   @default("active")  // active | completed
+  passengers  PassengerTrip[]
+
+  @@map("trips")
+}
+
+// ===== PassengerTrip (one passenger boarding) =====
+model PassengerTrip {
+  id          String   @id @default(cuid())
+  tripId      String
+  trip        Trip     @relation(fields: [tripId], references: [id])
+  passengerPhone String                  // M-Pesa phone used for payment
+  passengerName  String?
+  destinationStageId String
+  destinationStage  Stage  @relation(fields: [destinationStageId], references: [id])
+  fare        Int                          // KES charged
+  paxCount    Int      @default(1)         // number of people traveling together
+  status      String   @default("onboard") // onboard | alighted
+  paymentStatus String @default("pending") // pending | paid | failed
+  paymentMethod String @default("mpesa")   // mpesa | cash | nfc | qr
+  mpesaRef    String?                      // M-Pesa transaction code
+  boardedAt   DateTime @default(now())
+  alightedAt  DateTime?
+
+  @@map("passenger_trips")
+}

@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MatatuLink · Tuk Tuk Edition — Kenya</title>
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.34.0/dist/tabler-icons.min.css" rel="stylesheet">
+<style>
+  /* ===== Kenya flag palette =====
+     Black  #000000   top stripe
+     Red    #BB0000   middle stripe
+     Green  #006B3F   bottom stripe
+     White  #FFFFFF   thin separators + shield
+     Shield gold #C8A951 (Maasai shield accent)
+  */
+  :root{
+    --kq-black:#000000;
+    --kq-red:#BB0000;
+    --kq-red-dark:#8C0000;
+    --kq-red-soft:#FCE4E4;
+    --kq-green:#006B3F;
+    --kq-green-dark:#004A2B;
+    --kq-green-soft:#E1F0E8;
+    --kq-white:#FFFFFF;
+    --kq-gold:#C8A951;
+    --kq-cream:#FAF6EC;
+    --ink:#1A1A1A;
+    --ink-2:#4A4A4A;
+    --muted:#8A8A8A;
+    --line:#E6E6E6;
+    --surface:#FFFFFF;
+    --surface-2:#FAFAFA;
+    --radius:10px;
+    --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#F4F2EC;font-family:var(--font-sans);color:var(--ink);line-height:1.45}
+  body{padding:0;min-height:100vh}
+
+  /* Kenya flag stripe at top of viewport */
+  .flag-strip{
+    height:6px;width:100%;display:flex;
+    background:var(--kq-black);
+  }
+  .flag-strip span{flex:1}
+  .flag-strip .s1{background:var(--kq-black)}
+  .flag-strip .s2{background:var(--kq-white);flex:0 0 3px}
+  .flag-strip .s3{background:var(--kq-red)}
+  .flag-strip .s4{background:var(--kq-white);flex:0 0 3px}
+  .flag-strip .s5{background:var(--kq-green)}
+
+  .shell{max-width:780px;margin:0 auto;padding:18px 16px 48px}
+
+  /* Header */
+  .app-header{
+    display:flex;align-items:center;gap:12px;
+    padding:14px 0 18px;
+  }
+  .logo-badge{
+    width:46px;height:46px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%, #1a1a1a 0%, #000 70%);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;position:relative;
+    box-shadow:0 0 0 2px var(--kq-red) inset, 0 0 0 4px var(--kq-white) inset, 0 0 0 6px var(--kq-green) inset;
+  }
+  .logo-badge i{color:var(--kq-gold);font-size:22px}
+  .app-title{font-size:17px;font-weight:600;color:var(--ink)}
+  .app-sub{font-size:12px;color:var(--muted);margin-top:2px}
+  .app-tag{
+    margin-left:auto;padding:5px 11px;border-radius:20px;
+    font-size:11px;font-weight:600;letter-spacing:.02em;
+    background:var(--kq-green);color:#fff;display:flex;align-items:center;gap:5px
+  }
+
+  /* Tabs */
+  .tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{
+    padding:9px 14px;border-radius:var(--radius);border:1px solid var(--line);
+    background:var(--surface);color:var(--ink-2);font-size:13px;cursor:pointer;
+    transition:all .15s;display:flex;align-items:center;gap:7px;font-weight:500;
+    font-family:inherit;
+  }
+  .tab:hover{border-color:var(--kq-green)}
+  .tab.on{
+    background:var(--kq-black);color:#fff;border-color:var(--kq-black);
+    box-shadow:0 1px 0 var(--kq-red) inset, 0 2px 0 var(--kq-green) inset;
+  }
+  .tab.on i{color:var(--kq-gold)}
+
+  .view{display:none;animation:fade .25s ease}
+  .view.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .toast{
+    background:var(--kq-black);color:#fff;
+    border-left:4px solid var(--kq-green);
+    padding:11px 16px;border-radius:var(--radius);font-size:13px;
+    display:none;margin-bottom:14px;align-items:center;gap:8px;
+  }
+  .toast i{color:var(--kq-gold)}
+
+  .card{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:14px;padding:16px 18px;margin-bottom:10px;
+    box-shadow:0 1px 2px rgba(0,0,0,.03);
+  }
+  .badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;display:inline-flex;align-items:center;gap:4px}
+  .b-green{background:var(--kq-green-soft);color:var(--kq-green-dark)}
+  .b-red{background:var(--kq-red-soft);color:var(--kq-red-dark)}
+  .b-black{background:#EAEAEA;color:var(--ink)}
+  .b-gold{background:#FBF1D6;color:#7A5E1A}
+  .b-white{background:#fff;color:var(--ink);border:1px solid var(--line)}
+
+  .row2{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .row2:last-child{border-bottom:none}
+  .row2 .lbl{color:var(--muted)}
+  .row2 .val{font-weight:500;color:var(--ink)}
+
+  .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:14px 0 7px;font-weight:600}
+
+  .btn-p{
+    width:100%;padding:12px;background:var(--kq-green);color:#fff;
+    border:none;border-radius:var(--radius);font-size:14px;font-weight:600;
+    cursor:pointer;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:7px;
+    font-family:inherit;transition:background .15s;
+  }
+  .btn-p:hover{background:var(--kq-green-dark)}
+  .btn-r{background:var(--kq-red)}
+  .btn-r:hover{background:var(--kq-red-dark)}
+  .btn-s{
+    width:100%;padding:11px;background:var(--surface);color:var(--ink);
+    border:1px solid var(--line);border-radius:var(--radius);font-size:13px;
+    cursor:pointer;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:7px;
+    font-family:inherit;font-weight:500;
+  }
+  .btn-s:hover{border-color:var(--kq-black)}
+
+  select,input{
+    padding:9px 12px;border-radius:var(--radius);border:1px solid var(--line);
+    background:var(--surface);color:var(--ink);font-size:13px;width:100%;margin-bottom:8px;
+    font-family:inherit;
+  }
+  select:focus,input:focus{outline:none;border-color:var(--kq-green)}
+
+  /* Stat grid */
+  .sg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+  .sc{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:12px;padding:12px 10px;text-align:center;position:relative;overflow:hidden
+  }
+  .sc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+  .sc.green::before{background:var(--kq-green)}
+  .sc.red::before{background:var(--kq-red)}
+  .sc.black::before{background:var(--kq-black)}
+  .sc.gold::before{background:var(--kq-gold)}
+  .sv{font-size:21px;font-weight:600;color:var(--ink)}
+  .sl{font-size:11px;color:var(--muted);margin-top:3px}
+
+  /* Driver hero (Kenya flag inspired) */
+  .tuk-dash{
+    background:linear-gradient(135deg,#000 0%,#1a1a1a 100%);
+    border-radius:14px;padding:18px;margin-bottom:14px;color:#fff;position:relative;overflow:hidden
+  }
+  .tuk-dash::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:4px;
+    background:linear-gradient(to right,
+      var(--kq-black) 0%, var(--kq-black) 33%,
+      var(--kq-red) 33%, var(--kq-red) 66%,
+      var(--kq-green) 66%, var(--kq-green) 100%);
+  }
+  .tuk-dash::after{
+    content:'';position:absolute;bottom:-30px;right:-30px;width:120px;height:120px;
+    border-radius:50%;background:radial-gradient(circle, rgba(200,169,81,.18) 0%, transparent 70%);
+    pointer-events:none
+  }
+  .tuk-dash-title{font-size:11px;color:var(--kq-gold);margin-bottom:14px;text-align:center;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+  .tuk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 14px;position:relative;z-index:1}
+  .tuk-mini{
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+    border-radius:10px;padding:12px 6px;text-align:center
+  }
+  .tuk-mini-v{font-size:19px;font-weight:600;color:#fff}
+  .tuk-mini-l{font-size:10px;color:var(--kq-gold);margin-top:3px;letter-spacing:.04em}
+  .ev-bar{height:14px;background:rgba(255,255,255,.1);border-radius:8px;overflow:hidden;margin:6px 0 14px;position:relative;z-index:1}
+  .ev-fill{height:100%;border-radius:8px;transition:width .5s,background .3s}
+  .ev-meta{display:flex;justify-content:space-between;font-size:11px;color:#ccc;margin-bottom:4px;position:relative;z-index:1}
+  .ev-meta .gold{color:var(--kq-gold)}
+
+  /* Payment grid */
+  .pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+  .pay-btn{
+    padding:14px 8px;border-radius:var(--radius);border:1px solid var(--line);
+    background:var(--surface);cursor:pointer;text-align:center;transition:all .15s;
+    position:relative
+  }
+  .pay-btn:hover{border-color:var(--kq-green);background:var(--kq-green-soft)}
+  .pay-btn.sel{border-color:var(--kq-green);background:var(--kq-green-soft);box-shadow:0 0 0 2px var(--kq-green) inset}
+  .pay-icon{font-size:22px;color:var(--kq-green);margin-bottom:4px}
+  .pay-lbl{font-size:12px;font-weight:600;color:var(--ink)}
+  .pay-sub{font-size:10px;color:var(--muted);margin-top:1px}
+
+  /* Passenger phone frame */
+  .phone-frame{
+    background:var(--surface);border:1px solid var(--line);border-radius:18px;
+    padding:18px;position:relative;overflow:hidden
+  }
+  .phone-frame::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:5px;
+    background:linear-gradient(to right,
+      var(--kq-black) 0%, var(--kq-black) 30%,
+      #fff 30%, #fff 33%,
+      var(--kq-red) 33%, var(--kq-red) 63%,
+      #fff 63%, #fff 66%,
+      var(--kq-green) 66%, var(--kq-green) 100%);
+  }
+  .phone-hdr{font-size:11px;color:var(--muted);text-align:center;margin:6px 0 14px;letter-spacing:.04em}
+  .notif{
+    background:var(--kq-green-soft);border:1px solid #B9D9C6;border-left:3px solid var(--kq-green);
+    border-radius:var(--radius);padding:11px 14px;font-size:13px;color:var(--kq-green-dark);
+    display:flex;gap:9px;align-items:flex-start;margin-bottom:14px
+  }
+  .notif i{color:var(--kq-green);font-size:16px;flex-shrink:0;margin-top:1px}
+
+  .fare-card{text-align:center;padding:22px 16px;border:1px solid var(--line);border-radius:12px;margin-bottom:14px;background:linear-gradient(180deg,#fff 0%,var(--kq-green-soft) 100%)}
+  .fare-lbl{font-size:12px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+  .fare-big{font-size:42px;font-weight:700;color:var(--kq-green-dark);margin-bottom:4px;line-height:1}
+  .fare-dest{font-size:12px;color:var(--ink-2)}
+
+  .timeline{display:flex;flex-direction:column;gap:0}
+  .tl{display:flex;gap:12px;padding-bottom:14px;position:relative}
+  .tl::before{content:'';position:absolute;left:5px;top:14px;width:1px;height:calc(100% - 4px);background:var(--line)}
+  .tl:last-child::before{display:none}
+  .tl-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;margin-top:3px;border:2px solid #fff}
+  .tl-b{flex:1}
+  .tl-t{font-size:13px;font-weight:600;color:var(--ink)}
+  .tl-s{font-size:11px;color:var(--muted);margin-top:2px}
+  .hr{border:none;border-top:1px solid var(--line);margin:14px 0}
+
+  /* Owner hero strip */
+  .owner-hero{
+    background:linear-gradient(135deg,var(--kq-green-dark) 0%,var(--kq-green) 100%);
+    color:#fff;border-radius:14px;padding:16px 18px;margin-bottom:14px;position:relative;overflow:hidden
+  }
+  .owner-hero::before{
+    content:'';position:absolute;top:0;left:0;width:6px;bottom:0;background:var(--kq-red)
+  }
+  .owner-hero::after{
+    content:'';position:absolute;top:0;left:6px;width:2px;bottom:0;background:#fff
+  }
+  .owner-hero-row{display:flex;align-items:center;gap:10px}
+  .owner-hero-row i{font-size:20px;color:var(--kq-gold)}
+  .owner-hero-text{font-size:13px;line-height:1.5}
+  .owner-hero-text strong{color:var(--kq-gold)}
+
+  .progress-track{height:10px;background:#EFEFEF;border-radius:6px;overflow:hidden;margin:6px 0}
+  .progress-fill{height:100%;background:linear-gradient(to right,var(--kq-green) 0%,var(--kq-green-dark) 100%);border-radius:6px}
+
+  .pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .pill{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;background:#F3F3F3;color:var(--ink-2)}
+  .pill.k{background:var(--kq-black);color:#fff}
+  .pill.r{background:var(--kq-red);color:#fff}
+  .pill.g{background:var(--kq-green);color:#fff}
+
+  .foot-note{
+    text-align:center;font-size:11px;color:var(--muted);margin-top:24px;
+    padding-top:16px;border-top:1px solid var(--line)
+  }
+  .foot-note strong{color:var(--kq-green-dark)}
+
+  @media (max-width:520px){
+    .sg{grid-template-columns:1fr 1fr 1fr;gap:6px}
+    .sc{padding:10px 4px}
+    .sv{font-size:17px}
+    .fare-big{font-size:34px}
+  }
+</style>
+</head>
+<body>
+
+<div class="flag-strip">
+  <span class="s1"></span><span class="s2"></span><span class="s3"></span><span class="s4"></span><span class="s5"></span>
+</div>
+
+<div class="shell">
+
+  <div class="app-header">
+    <div class="logo-badge">
+      <i class="ti ti-motorbike"></i>
+    </div>
+    <div>
+      <div class="app-title">MatatuLink · Tuk Tuk Edition</div>
+      <div class="app-sub">Roam ET3 · KDB 112T · Nairobi — Eastleigh zone</div>
+    </div>
+    <span class="app-tag"><i class="ti ti-bolt"></i> Electric</span>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" data-tab="driver" onclick="sw(event,'driver')">
+      <i class="ti ti-steering-wheel"></i> Driver
+    </button>
+    <button class="tab" data-tab="passenger" onclick="sw(event,'passenger')">
+      <i class="ti ti-user"></i> Passenger
+    </button>
+    <button class="tab" data-tab="owner" onclick="sw(event,'owner')">
+      <i class="ti ti-chart-bar"></i> Admin / Owner
+    </button>
+  </div>
+
+  <div id="toast" class="toast"><i class="ti ti-info-circle"></i><span id="toast-msg"></span></div>
+
+  <!-- ══════════════════════════════ DRIVER ══════════════════════════════ -->
+  <div id="v-driver" class="view on">
+
+    <div class="tuk-dash">
+      <div class="tuk-dash-title">Live Driver Dashboard · Kenya</div>
+
+      <div class="tuk-grid">
+        <div class="tuk-mini">
+          <div class="tuk-mini-v" id="d-trips">6</div>
+          <div class="tuk-mini-l">Trips today</div>
+        </div>
+        <div class="tuk-mini">
+          <div class="tuk-mini-v" id="d-rev">KES 1,240</div>
+          <div class="tuk-mini-l">Revenue today</div>
+        </div>
+        <div class="tuk-mini">
+          <div class="tuk-mini-v" id="d-pax">9</div>
+          <div class="tuk-mini-l">Passengers</div>
+        </div>
+      </div>
+
+      <div class="ev-meta">
+        <span><i class="ti ti-bolt"></i> Battery</span>
+        <span class="gold" id="batt-pct">74%</span>
+      </div>
+      <div class="ev-bar"><div class="ev-fill" id="batt-bar" style="width:74%;background:linear-gradient(to right,var(--kq-green),var(--kq-gold))"></div></div>
+
+      <div class="ev-meta">
+        <span><i class="ti ti-target"></i> Daily target</span>
+        <span class="gold" id="target-pct">62%</span>
+      </div>
+      <div class="ev-bar"><div class="ev-fill" id="target-bar" style="width:62%;background:var(--kq-red)"></div></div>
+    </div>
+
+    <div class="lbl">Current trip</div>
+    <div class="card">
+      <div class="row2"><span class="lbl">Status</span><span class="badge b-green"><i class="ti ti-point-filled"></i> Trip active</span></div>
+      <div class="row2"><span class="lbl">Passengers</span><span class="val" id="curr-pax">2 on board</span></div>
+      <div class="row2"><span class="lbl">Destination</span><span class="val" id="curr-dest">Eastleigh 2nd St</span></div>
+      <div class="row2"><span class="lbl">Fare</span><span class="val" style="color:var(--kq-green-dark)" id="curr-fare">KES 150</span></div>
+      <div class="row2" style="border:none"><span class="lbl">Payment</span><span class="badge b-gold" id="curr-pay">Pending</span></div>
+    </div>
+
+    <div class="lbl">Log new trip (or passenger pays via QR)</div>
+    <div class="card">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Destination</div>
+      <select id="dest-sel">
+        <option value="">Select destination</option>
+        <option value="Eastleigh 1st St|80">Eastleigh 1st St · KES 80</option>
+        <option value="Eastleigh 2nd St|100">Eastleigh 2nd St · KES 100</option>
+        <option value="Gikomba|120">Gikomba Market · KES 120</option>
+        <option value="Pumwani|130">Pumwani · KES 130</option>
+        <option value="CBD|200">Nairobi CBD · KES 200</option>
+      </select>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Passengers</div>
+      <select id="pax-sel">
+        <option value="1">1 passenger</option>
+        <option value="2" selected>2 passengers</option>
+        <option value="3">3 passengers</option>
+      </select>
+
+      <div class="pay-grid">
+        <div class="pay-btn sel" id="pm-mpesa" onclick="selPay('mpesa')">
+          <div class="pay-icon"><i class="ti ti-device-mobile"></i></div>
+          <div class="pay-lbl">M-Pesa</div>
+          <div class="pay-sub">STK push</div>
+        </div>
+        <div class="pay-btn" id="pm-qr" onclick="selPay('qr')">
+          <div class="pay-icon"><i class="ti ti-qrcode"></i></div>
+          <div class="pay-lbl">QR code</div>
+          <div class="pay-sub">Passenger scans</div>
+        </div>
+        <div class="pay-btn" id="pm-nfc" onclick="selPay('nfc')">
+          <div class="pay-icon"><i class="ti ti-access-point"></i></div>
+          <div class="pay-lbl">NFC tap</div>
+          <div class="pay-sub">Tap to pay</div>
+        </div>
+        <div class="pay-btn" id="pm-cash" onclick="selPay('cash')">
+          <div class="pay-icon"><i class="ti ti-coins"></i></div>
+          <div class="pay-lbl">Cash</div>
+          <div class="pay-sub">Logged to record</div>
+        </div>
+      </div>
+
+      <button class="btn-p" onclick="logTrip()"><i class="ti ti-plus"></i> Log trip &amp; charge passenger</button>
+    </div>
+
+    <div class="lbl">Battery &amp; range</div>
+    <div class="card">
+      <div class="row2"><span class="lbl">Charge level</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input type="range" min="0" max="100" value="74" step="1" style="width:90px;margin:0" id="batt-slider" oninput="updateBatt(this.value)">
+          <span style="font-size:13px;font-weight:600" id="batt-lbl">74%</span>
+        </div>
+      </div>
+      <div class="row2"><span class="lbl">Estimated range</span><span class="val" id="range-est">55 km</span></div>
+      <div class="row2"><span class="lbl">Nearest charger</span><span style="color:var(--kq-green-dark);font-size:13px;font-weight:500">Roam Hub, Eastleigh · 1.2 km</span></div>
+      <div class="row2" style="border:none"><span class="lbl">Charge alert</span><span class="badge b-red">Alert at 20%</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ PASSENGER ══════════════════════════════ -->
+  <div id="v-passenger" class="view">
+    <div class="phone-frame">
+      <div class="phone-hdr">Passenger screen · Mounted in tuk tuk cabin · No app needed</div>
+
+      <div class="notif" id="p-notif">
+        <i class="ti ti-map-pin"></i>
+        <div>You are in <strong>Tuk KDB 112T</strong> with driver James M. · Heading to <span id="p-dest-lbl">Eastleigh 2nd St</span></div>
+      </div>
+
+      <div class="fare-card">
+        <div class="fare-lbl">Your fare</div>
+        <div class="fare-big" id="p-fare-big">KES 100</div>
+        <div class="fare-dest" id="p-dest-card">To: Eastleigh 2nd St</div>
+      </div>
+
+      <div class="lbl" style="margin-top:0">Pay now — choose method</div>
+      <div class="pay-grid">
+        <div class="pay-btn" onclick="passPay('mpesa')">
+          <div class="pay-icon"><i class="ti ti-device-mobile"></i></div>
+          <div class="pay-lbl">M-Pesa</div>
+          <div class="pay-sub">Enter your number</div>
+        </div>
+        <div class="pay-btn" onclick="passPay('qr')">
+          <div class="pay-icon"><i class="ti ti-qrcode"></i></div>
+          <div class="pay-lbl">Scan QR</div>
+          <div class="pay-sub">Use your camera</div>
+        </div>
+        <div class="pay-btn" onclick="passPay('nfc')">
+          <div class="pay-icon"><i class="ti ti-access-point"></i></div>
+          <div class="pay-lbl">NFC tap</div>
+          <div class="pay-sub">Tap reader inside</div>
+        </div>
+        <div class="pay-btn" onclick="passPay('cash')">
+          <div class="pay-icon"><i class="ti ti-coins"></i></div>
+          <div class="pay-lbl">Cash</div>
+          <div class="pay-sub">Tell the driver</div>
+        </div>
+      </div>
+
+      <div id="p-phone-wrap" style="display:none;margin-bottom:8px">
+        <input type="text" id="p-phone" placeholder="07XX XXX XXX — your M-Pesa number">
+        <button class="btn-p" onclick="sendStk()"><i class="ti ti-device-mobile"></i> Send M-Pesa prompt to my phone</button>
+      </div>
+
+      <div id="p-confirmed" style="display:none" class="card" style="background:var(--kq-green-soft);border-color:#B9D9C6">
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px;padding:8px 0">
+          <i class="ti ti-circle-check" style="font-size:30px;color:var(--kq-green)"></i>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--kq-green-dark)">Payment confirmed · Asante!</div>
+            <div style="font-size:12px;color:var(--kq-green-dark)" id="p-receipt">M-Pesa · KES 100</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="hr">
+      <div class="lbl">Your trip</div>
+      <div class="row2"><span class="lbl">Driver</span><span>James M. <span class="badge b-gold" style="font-size:10px">4.8 ★</span></span></div>
+      <div class="row2"><span class="lbl">Tuk tuk</span><span>Roam ET3 · KDB 112T</span></div>
+      <div class="row2"><span class="lbl">From</span><span>Nairobi CBD</span></div>
+      <div class="row2" style="border:none"><span class="lbl">To</span><span id="p-to-row">Eastleigh 2nd St</span></div>
+
+      <hr class="hr">
+      <div style="text-align:center;font-size:11px;color:var(--muted)">
+        <i class="ti ti-shield-check" style="color:var(--kq-green)"></i>
+        Payment secured by <strong style="color:var(--ink)">Safaricom M-Pesa Daraja</strong> · MatatuLink Kenya
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ OWNER / ADMIN ══════════════════════════════ -->
+  <div id="v-owner" class="view">
+
+    <div class="owner-hero">
+      <div class="owner-hero-row">
+        <i class="ti ti-trending-up"></i>
+        <div class="owner-hero-text">
+          This vehicle is on track to earn <strong>KES 7,400</strong> this week — enough to cover repayment and leave <strong>KES 4,800</strong> for the driver.
+        </div>
+      </div>
+    </div>
+
+    <div class="sg">
+      <div class="sc green"><div class="sv" id="o-rev">KES 1,240</div><div class="sl">Today's revenue</div></div>
+      <div class="sc red"><div class="sv" id="o-trips">6</div><div class="sl">Trips completed</div></div>
+      <div class="sc black"><div class="sv" id="o-loan">KES 820</div><div class="sl">Loan repayment due</div></div>
+    </div>
+
+    <div class="lbl">Financial health</div>
+    <div class="card">
+      <div class="row2"><span class="lbl">Vehicle purchase price</span><span class="val">KES 420,000</span></div>
+      <div class="row2"><span class="lbl">Loan outstanding</span><span class="val" style="color:var(--kq-red-dark)">KES 312,000</span></div>
+      <div class="row2"><span class="lbl">Weekly repayment</span><span class="val">KES 2,600</span></div>
+      <div class="row2"><span class="lbl">Revenue this week</span><span class="val" style="color:var(--kq-green-dark)">KES 7,400</span></div>
+      <div class="row2" style="border:none"><span class="lbl">Driver earnings this week</span><span class="val">KES 4,800</span></div>
+    </div>
+
+    <div class="lbl">Loan repayment progress</div>
+    <div class="card">
+      <div class="row2" style="border:none;padding-bottom:6px">
+        <span class="lbl">Paid: KES 108,000 / KES 420,000</span>
+        <span class="val">26%</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:26%"></div></div>
+      <div class="pill-row">
+        <span class="pill k">26% paid</span>
+        <span class="pill g">On schedule</span>
+        <span class="pill r">KES 312K left</span>
+      </div>
+    </div>
+
+    <div class="lbl">Income record — for loan / SACCO access</div>
+    <div class="card" style="padding:14px 16px">
+      <div class="timeline" id="trip-log"></div>
+    </div>
+
+    <div class="lbl">Payment breakdown today</div>
+    <div class="card">
+      <div class="row2"><span class="lbl">M-Pesa</span><span class="badge b-green">KES 840 · 5 trips</span></div>
+      <div class="row2"><span class="lbl">NFC tap</span><span class="badge b-green">KES 200 · 1 trip</span></div>
+      <div class="row2"><span class="lbl">Cash</span><span class="badge b-gold">KES 200 · 1 trip</span></div>
+      <div class="row2" style="border:none"><span class="lbl">Cash %</span><span class="badge b-black">16% — within limit</span></div>
+    </div>
+
+    <div class="lbl">Battery &amp; energy usage today</div>
+    <div class="card">
+      <div class="row2"><span class="lbl">Started at</span><span class="val">98%</span></div>
+      <div class="row2"><span class="lbl">Current</span><span class="val">74%</span></div>
+      <div class="row2"><span class="lbl">Distance covered</span><span class="val">34 km</span></div>
+      <div class="row2" style="border:none"><span class="lbl">Efficiency</span><span class="badge b-green">1.4 km / % charge</span></div>
+    </div>
+
+    <div class="lbl">30-day income summary (for lender)</div>
+    <div class="card">
+      <div class="row2"><span class="lbl">Total revenue</span><span class="val" style="color:var(--kq-green-dark)">KES 38,200</span></div>
+      <div class="row2"><span class="lbl">Total trips</span><span class="val">184</span></div>
+      <div class="row2"><span class="lbl">Avg revenue / day</span><span class="val">KES 1,273</span></div>
+      <div class="row2"><span class="lbl">Loan repaid (30 days)</span><span class="val">KES 7,800</span></div>
+      <div class="row2" style="border:none;padding-bottom:0">
+        <span class="lbl">Loan coverage ratio</span>
+        <span class="badge b-green">2.3× — healthy</span>
+      </div>
+    </div>
+
+    <button class="btn-s" onclick="toast('Loan application assistant opening... Use your last 30 days of MatatuLink income data to apply for SACCO credit.')">
+      <i class="ti ti-file-text"></i> How to use this data for a loan application ↗
+    </button>
+
+    <div class="lbl">Fleet overview (admin)</div>
+    <div class="card">
+      <div class="row2"><span class="lbl">Total tuk tuks in fleet</span><span class="val">12 vehicles</span></div>
+      <div class="row2"><span class="lbl">Active drivers</span><span class="val">11 / 12</span></div>
+      <div class="row2"><span class="lbl">Fleet revenue today</span><span class="val" style="color:var(--kq-green-dark)">KES 14,820</span></div>
+      <div class="row2"><span class="lbl">Fleet loan outstanding</span><span class="val" style="color:var(--kq-red-dark)">KES 3.74M</span></div>
+      <div class="row2" style="border:none"><span class="lbl">Vehicles needing service</span><span class="badge b-red">2 vehicles</span></div>
+    </div>
+  </div>
+
+  <div class="foot-note">
+    <strong>MatatuLink Kenya</strong> · Powered by the colours of our flag — Black, Red, Green &amp; White · <i class="ti ti-shield-check"></i> Built for SACCOs, drivers &amp; passengers
+  </div>
+
+</div>
+
+<script>
+  // ===== State =====
+  let selPayMethod = 'mpesa';
+  let tripCount = 6;
+  let revenue = 1240;
+  let paxTotal = 9;
+
+  const tripLog = [
+    {time:'10:41', from:'CBD', to:'Eastleigh 2nd', fare:200, method:'mpesa', pax:2},
+    {time:'10:12', from:'Eastleigh 1st', to:'Gikomba', fare:120, method:'nfc', pax:1},
+    {time:'09:48', from:'CBD', to:'Pumwani', fare:260, method:'mpesa', pax:2},
+    {time:'09:21', from:'Eastleigh 2nd', to:'CBD', fare:200, method:'mpesa', pax:1},
+    {time:'08:55', from:'Gikomba', to:'Eastleigh 1st', fare:160, method:'cash', pax:2},
+    {time:'08:30', from:'CBD', to:'Eastleigh 1st', fare:160, method:'mpesa', pax:2},
+  ];
+
+  // ===== Tab switching =====
+  function sw(e, id) {
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+    document.getElementById('v-'+id).classList.add('on');
+    e.currentTarget.closest('.tab').classList.add('on');
+    if(id==='owner') renderLog();
+  }
+
+  // ===== Payment method selection =====
+  function selPay(m) {
+    selPayMethod = m;
+    ['mpesa','qr','nfc','cash'].forEach(pm => {
+      document.getElementById('pm-'+pm).classList.toggle('sel', pm===m);
+    });
+  }
+
+  // ===== Log a trip =====
+  function logTrip() {
+    const destSel = document.getElementById('dest-sel').value;
+    if(!destSel){toast('Tafadhali — select a destination first');return}
+    const [dest, fareStr] = destSel.split('|');
+    const pax = parseInt(document.getElementById('pax-sel').value);
+    const fare = parseInt(fareStr) * pax;
+    tripCount++; revenue += fare; paxTotal += pax;
+    document.getElementById('d-trips').textContent = tripCount;
+    document.getElementById('d-rev').textContent = 'KES '+revenue.toLocaleString();
+    document.getElementById('d-pax').textContent = paxTotal;
+    document.getElementById('curr-dest').textContent = dest;
+    document.getElementById('curr-fare').textContent = 'KES '+fare;
+    document.getElementById('curr-pax').textContent = pax+' on board';
+    const payBadge = document.getElementById('curr-pay');
+    payBadge.textContent = selPayMethod === 'cash' ? 'Cash' : 'Pending M-Pesa';
+    payBadge.className = 'badge '+(selPayMethod==='cash'?'b-gold':'b-red');
+
+    const tPct = Math.min(100, Math.round((revenue/2000)*100));
+    document.getElementById('target-pct').textContent = tPct+'%';
+    document.getElementById('target-bar').style.width = tPct+'%';
+
+    document.getElementById('p-fare-big').textContent = 'KES '+fare;
+    document.getElementById('p-dest-lbl').textContent = dest;
+    document.getElementById('p-dest-card').textContent = 'To: '+dest;
+    document.getElementById('p-to-row').textContent = dest;
+
+    tripLog.unshift({time:now(), from:'Current location', to:dest, fare, method:selPayMethod, pax});
+    document.getElementById('o-trips').textContent = tripCount;
+    document.getElementById('o-rev').textContent = 'KES '+revenue.toLocaleString();
+
+    toast('Trip logged · '+dest+' · KES '+fare+' · '+selPayMethod);
+  }
+
+  // ===== Passenger payment =====
+  function passPay(method) {
+    const conf = document.getElementById('p-confirmed');
+    const phoneWrap = document.getElementById('p-phone-wrap');
+    if(method==='mpesa') {
+      phoneWrap.style.display='block';
+      return;
+    }
+    phoneWrap.style.display='none';
+    const fare = document.getElementById('p-fare-big').textContent;
+    document.getElementById('p-receipt').textContent = method.toUpperCase()+' · '+fare;
+    conf.style.display='block';
+    conf.style.background='var(--kq-green-soft)';
+    conf.style.borderColor='#B9D9C6';
+    toast('Payment received · '+fare+' · Asante sana!');
+  }
+
+  function sendStk() {
+    const ph = document.getElementById('p-phone').value.trim();
+    if(!ph){toast('Enter your phone number');return}
+    const fare = document.getElementById('p-fare-big').textContent;
+    document.getElementById('p-receipt').textContent = 'M-Pesa · '+fare+' · Prompt sent to '+ph;
+    document.getElementById('p-confirmed').style.display='block';
+    document.getElementById('p-phone-wrap').style.display='none';
+    toast('M-Pesa STK push sent to '+ph);
+  }
+
+  // ===== Battery slider =====
+  function updateBatt(v) {
+    v = parseInt(v);
+    document.getElementById('batt-pct').textContent = v+'%';
+    document.getElementById('batt-lbl').textContent = v+'%';
+    const bar = document.getElementById('batt-bar');
+    bar.style.width = v+'%';
+    bar.style.background = v<20 ? 'var(--kq-red)' : (v<40 ? 'linear-gradient(to right,var(--kq-red),var(--kq-gold))' : 'linear-gradient(to right,var(--kq-green),var(--kq-gold))');
+    document.getElementById('range-est').textContent = Math.round(v*0.75)+' km';
+  }
+
+  // ===== Render income log timeline =====
+  function renderLog() {
+    const el = document.getElementById('trip-log');
+    el.innerHTML = tripLog.map(t=>{
+      const dotColor = t.method==='cash' ? 'var(--kq-gold)' : 'var(--kq-green)';
+      const methodBg = t.method==='cash' ? 'var(--kq-gold)' : (t.method==='mpesa' ? 'var(--kq-green)' : 'var(--kq-black)');
+      return `
+      <div class="tl">
+        <div class="tl-dot" style="background:${dotColor}"></div>
+        <div class="tl-b">
+          <div class="tl-t">${t.from} → ${t.to} · KES ${t.fare}</div>
+          <div class="tl-s">${t.time} · ${t.pax} pax · <span style="color:${t.method==='cash'?'#7A5E1A':'var(--kq-green-dark)'};font-weight:600;text-transform:uppercase">${t.method}</span></div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ===== Toast =====
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    t.style.display = 'flex';
+    clearTimeout(t._t);
+    t._t = setTimeout(()=>t.style.display='none', 3500);
+  }
+
+  function now(){
+    const d = new Date();
+    return d.getHours()+':'+(d.getMinutes()<10?'0':'')+d.getMinutes();
+  }
+
+  // Init
+  renderLog();
+</script>
+</body>
+</html>
