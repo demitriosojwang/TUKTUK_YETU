@@ -10,6 +10,7 @@ import {
   Bus, Battery, Target, Users, Wallet, MapPin, CheckCircle2, LogOut,
   AlertCircle, Coins, Zap, Bell, User, Navigation, ChevronRight
 } from 'lucide-react'
+import { Logo } from './Logo'
 
 type Stage = { id: string; name: string; isLandmark: boolean; fareFromBase: number; order: number }
 type Passenger = {
@@ -107,13 +108,12 @@ export function DriverView() {
         <Card className="rounded-t-none border-t-0 shadow-lg">
           <div className="p-6 space-y-5">
             <div className="text-center space-y-3">
-              <div className="inline-flex w-14 h-14 rounded-full bg-black items-center justify-center"
-                style={{ boxShadow: '0 0 0 2px #BB0000 inset, 0 0 0 4px #fff inset, 0 0 0 6px #006B3F inset' }}>
-                <Bus className="w-7 h-7 text-[#C8A951]" />
+              <div className="flex justify-center">
+                <Logo size="lg" />
               </div>
               <div>
                 <div className="font-bold text-xl">Driver sign in</div>
-                <div className="text-xs text-muted-foreground">TUKTUK YETU · Drive and let the system handle fares</div>
+                <div className="text-xs text-muted-foreground">Drive and let the system handle fares</div>
               </div>
             </div>
 

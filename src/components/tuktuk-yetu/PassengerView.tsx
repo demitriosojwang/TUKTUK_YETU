@@ -7,7 +7,8 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { KenyaFlagStripe, kes } from './shared'
-import { Bus, MapPin, User, Phone, Loader2, CheckCircle2, QrCode, Zap, Star, Shield, Coins, Smartphone, ChevronRight } from 'lucide-react'
+import { LogoLockup } from './Logo'
+import { MapPin, Phone, Loader2, CheckCircle2, QrCode, Zap, Star, Shield, Coins, Smartphone, ChevronRight } from 'lucide-react'
 
 type Stage = {
   id: string
@@ -129,14 +130,11 @@ export function PassengerView() {
         {/* Header */}
         <div className="p-5 pb-3 border-b">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center relative"
-              style={{ boxShadow: '0 0 0 2px #BB0000 inset, 0 0 0 4px #fff inset, 0 0 0 6px #006B3F inset' }}>
-              <Bus className="w-6 h-6 text-[#C8A951]" />
-            </div>
-            <div>
-              <div className="font-bold text-lg leading-tight">TUKTUK YETU</div>
-              <div className="text-xs text-muted-foreground">Passenger self-service · No app needed</div>
-            </div>
+            <LogoLockup size="md" />
+            <div className="flex-1" />
+            <Badge variant="outline" className="bg-[#E1F0E8] text-[#004A2B] border-[#006B3F]/30 text-[10px]">
+              No app needed
+            </Badge>
           </div>
         </div>
 

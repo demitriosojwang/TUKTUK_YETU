@@ -4,7 +4,9 @@
 
 Passengers pick their stage and pay via M-Pesa themselves — drivers focus on driving, not negotiating fares or chasing cash confirmations.
 
-![TUKTUK YETU](download/tuktuk-yetu-mombasa-owner.png)
+![TUKTUK YETU](public/logo-512.png)
+
+> **Fare collection. Made easy.**
 
 ---
 
@@ -78,6 +80,19 @@ Themed in the **Kenyan flag colours** throughout:
 - 🟡 Maasai shield gold `#C8A951` (accent)
 
 The Kenyan flag stripe appears at the top of every interface. Driver dashboard hero uses a black gradient with a tri-color top accent. Owner dashboard uses a green gradient with a red+white spine mirroring the flag's vertical accent.
+
+### 🚌 Logo
+
+The official TUKTUK YETU logo (`public/logo.png`) features a stylised tuk tuk in Kenyan flag colours inside a circular tri-colour frame, alongside a smartphone showing a green checkmark (representing digital payment confirmation). The wordmark reads **TUKTUK YETU** with the tagline **"FARE COLLECTION. MADE EASY."**
+
+Logo assets in `public/`:
+- `logo.png` — 512×512 PNG, main lockup (96 KB)
+- `logo-192.png` — 192×192 PWA icon (46 KB)
+- `logo-512.png` — 512×512 PWA icon + OG image (135 KB)
+- `favicon.ico` — 32×32 browser tab icon (2 KB)
+- `manifest.json` — PWA manifest referencing the icons
+
+The reusable `<Logo>` and `<LogoLockup>` components in `src/components/tuktuk-yetu/Logo.tsx` wrap the logo in a Kenya-flag-themed circular frame (black ring + white + green inner accent) at four sizes: `sm` (32px), `md` (40px), `lg` (56px), `xl` (80px).
 
 ---
 

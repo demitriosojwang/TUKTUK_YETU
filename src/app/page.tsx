@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { KenyaFlagStripe } from '@/components/tuktuk-yetu/shared'
+import { LogoLockup } from '@/components/tuktuk-yetu/Logo'
 import { PassengerView } from '@/components/tuktuk-yetu/PassengerView'
 import { DriverView } from '@/components/tuktuk-yetu/DriverView'
 import { OwnerView } from '@/components/tuktuk-yetu/OwnerView'
@@ -20,16 +21,8 @@ export default function Home() {
       {/* Header */}
       <header className="border-b border-border bg-white/80 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center relative"
-            style={{ boxShadow: '0 0 0 2px #BB0000 inset, 0 0 0 4px #fff inset, 0 0 0 6px #006B3F inset' }}>
-            <Bus className="w-5 h-5 text-[#C8A951]" />
-          </div>
-          <div className="flex-1">
-            <div className="font-bold text-lg leading-tight tracking-tight">TUKTUK YETU</div>
-            <div className="text-[11px] text-muted-foreground leading-tight">
-              Electric tuk tuk fare collection · Nairobi
-            </div>
-          </div>
+          <LogoLockup size="md" />
+          <div className="flex-1" />
           <div className="hidden sm:flex items-center gap-1.5 text-[10px] text-muted-foreground px-2 py-1 rounded-full bg-muted/50">
             <Flag className="w-3 h-3 text-[#006B3F]" />
             <span>Proudly Kenyan</span>
