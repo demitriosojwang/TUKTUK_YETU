@@ -147,7 +147,8 @@ export function DriverView() {
 
             <div className="rounded-lg bg-[#FBF1D6] border-l-4 border-[#C8A951] p-3 text-xs text-[#7A5E1A]">
               <strong>Demo PINs (Nairobi):</strong> 1122 (KDB 112T · James Mwangi), 2233 (KDB 246T · Aisha Wanjiru).<br />
-              <strong>Demo PINs (Mombasa):</strong> 4455 (KMD 220A · Ervin Mmaitsi · LITOD), 5566 (KMD 481B · Dennis Njeru).
+              <strong>Demo PINs (Mombasa South Coast · LITOD):</strong> 4455 (KMD 220A · Ervin Mmaitsi), 5566 (KMD 481B · Dennis Njeru).<br />
+              <strong>Demo PINs (Mombasa Town · Coast TukTuk):</strong> 7788 (KMD 904D · Ali Mohammed), 8899 (KMD 615E · Anwari Said).
             </div>
           </div>
         </Card>

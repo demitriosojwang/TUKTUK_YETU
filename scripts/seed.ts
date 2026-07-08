@@ -255,14 +255,148 @@ async function main() {
     ],
   })
 
+  // ════════════════════════════════════════════════════════════
+  // REGION 3: MOMBASA TOWN  (Coast TukTuk Operators Welfare Group)
+  // Covers Mombasa Island + mainland: Nyali, Bamburi, Mtwapa,
+  // Changamwe, Airport, Miritini SGR, Ferry Crossing to south coast.
+  // ════════════════════════════════════════════════════════════
+  const mombasaTown = await db.region.create({
+    data: {
+      name: 'Mombasa Town',
+      city: 'Mombasa',
+      description: 'Mombasa Island & mainland — Coast TukTuk Operators Welfare Group. Covers Nyali, Bamburi, Mtwapa, Changamwe, Airport, Miritini SGR.',
+    },
+  })
+
+  // ===== Coast TukTuk Operators Welfare Group SACCO =====
+  const coastTuk = await db.sacco.create({
+    data: {
+      name: 'Coast TukTuk Operators Welfare Group',
+      shortName: 'Coast TukTuk',
+      phone: '0724812877',
+      boxOffice: 'Mombasa, Kenya',
+      chairman: 'Ali Mohammed',
+      chairmanPhone: '0724812877',
+      regionId: mombasaTown.id,
+    },
+  })
+
+  // ===== Mombasa Town Drivers =====
+  const driver6 = await db.driver.create({
+    data: { name: 'Ali Mohammed', phone: '0724812877', rating: 4.8, pin: '7788' },
+  })
+  const driver7 = await db.driver.create({
+    data: { name: 'Anwari Said', phone: '0721904506', rating: 4.9, pin: '8899' },
+  })
+
+  // ===== Mombasa Town Route: Town Run =====
+  // All fares from the Coast TukTuk Operators Welfare Group price list (extracted via VLM)
+  // Waiting charges: 50/- per 5 minutes (documented in route description)
+  const route5 = await db.route.create({
+    data: {
+      name: 'Mombasa Town Run',
+      description: 'Mombasa Island + mainland run. Town short distance, Tudor, Ganjoni, Liwatoni, Nyali, Bamburi, Mtwapa, Changamwe, Airport, Miritini SGR. Waiting charges: KES 50 per 5 minutes.',
+      baseFare: 40, // minimum fare on the price list (Likoni/Chama or Lights/Mshoroni Chama)
+      regionId: mombasaTown.id,
+    },
+  })
+
+  // 35 stages from the Coast TukTuk Operators Welfare Group price list
+  // Origin = Mombasa Town (CBD); grouped entries from the source split into separate stages
+  const townStages = [
+    { name: 'Mombasa Town (Origin)', fareFromBase: 0, isLandmark: false, order: 0 },
+    { name: 'Town Short Distance', fareFromBase: 100, isLandmark: false, order: 1 },
+    { name: 'Pick-up Call', fareFromBase: 150, isLandmark: true, order: 2 },
+    { name: 'Lebanon Roundabout', fareFromBase: 100, isLandmark: false, order: 3 },
+    { name: 'Gulshan / Koja Flats', fareFromBase: 150, isLandmark: true, order: 4 },
+    { name: 'Majengo', fareFromBase: 150, isLandmark: false, order: 5 },
+    { name: "King'orani Sparki", fareFromBase: 150, isLandmark: true, order: 6 },
+    { name: 'Moons Makande', fareFromBase: 150, isLandmark: true, order: 7 },
+    { name: '77', fareFromBase: 150, isLandmark: true, order: 8 },
+    { name: 'Tudor', fareFromBase: 150, isLandmark: false, order: 9 },
+    { name: 'Tudor Nora', fareFromBase: 200, isLandmark: true, order: 10 },
+    { name: 'Royal Court', fareFromBase: 100, isLandmark: false, order: 11 },
+    { name: 'Railway Station', fareFromBase: 150, isLandmark: false, order: 12 },
+    { name: 'D.T Dobie / Hare Krishna', fareFromBase: 100, isLandmark: true, order: 13 },
+    { name: 'Ganjoni', fareFromBase: 100, isLandmark: false, order: 14 },
+    { name: 'Liwatoni', fareFromBase: 150, isLandmark: false, order: 15 },
+    { name: 'Liwatoni Coca Cola', fareFromBase: 200, isLandmark: true, order: 16 },
+    { name: 'Bondeni / Kilifi', fareFromBase: 100, isLandmark: false, order: 17 },
+    { name: 'Bondeni / Kilifi (Peak Hours)', fareFromBase: 150, isLandmark: true, order: 18 },
+    { name: 'Coast General / Allidina', fareFromBase: 150, isLandmark: false, order: 19 },
+    { name: 'Kidogo Bus / Biashara Street', fareFromBase: 200, isLandmark: true, order: 20 },
+    { name: 'Shimanzi', fareFromBase: 200, isLandmark: false, order: 21 },
+    { name: 'Changamwe', fareFromBase: 400, isLandmark: false, order: 22 },
+    { name: 'Airport', fareFromBase: 700, isLandmark: false, order: 23 },
+    { name: 'Jomvu / Mikindani', fareFromBase: 700, isLandmark: false, order: 24 },
+    { name: 'Miritini (SGR)', fareFromBase: 1000, isLandmark: false, order: 25 },
+    { name: 'Nyali BP', fareFromBase: 400, isLandmark: false, order: 26 },
+    { name: 'Mamba', fareFromBase: 500, isLandmark: true, order: 27 },
+    { name: 'Reef / Nakumatt Nyali', fareFromBase: 500, isLandmark: true, order: 28 },
+    { name: 'Bamburi Public Beach', fareFromBase: 500, isLandmark: false, order: 29 },
+    { name: 'Kisauni Mwandoni', fareFromBase: 300, isLandmark: false, order: 30 },
+    { name: 'Kisauni Bamburi', fareFromBase: 300, isLandmark: false, order: 31 },
+    { name: 'Shanzu Beach Serena', fareFromBase: 700, isLandmark: false, order: 32 },
+    { name: 'Mtwapa', fareFromBase: 1200, isLandmark: false, order: 33 },
+    { name: 'Mama Ngina / Ndho Market / Nakumatt', fareFromBase: 100, isLandmark: true, order: 34 },
+    { name: 'Ferry Crossing', fareFromBase: 1200, isLandmark: false, order: 35 },
+    { name: 'Shelly Beach', fareFromBase: 1400, isLandmark: false, order: 36 },
+    { name: 'Ukunda', fareFromBase: 2500, isLandmark: false, order: 37 },
+    { name: 'Likoni / Chama', fareFromBase: 40, isLandmark: true, order: 38 },
+    { name: 'Lights / Mshoroni Chama', fareFromBase: 40, isLandmark: true, order: 39 },
+  ]
+  const stages5 = await Promise.all(
+    townStages.map((s) => db.stage.create({ data: { ...s, routeId: route5.id } })),
+  )
+
+  // ===== Mombasa Town Vehicles =====
+  const v6 = await db.vehicle.create({
+    data: {
+      plate: 'KMD 904D', model: 'Roam ET3', batteryPct: 78, isElectric: true,
+      purchasePrice: 420000, loanOutstanding: 168000, weeklyRepayment: 2600,
+      status: 'active', driverId: driver6.id, routeId: route5.id,
+      regionId: mombasaTown.id, saccoId: coastTuk.id,
+    },
+  })
+  const v7 = await db.vehicle.create({
+    data: {
+      plate: 'KMD 615E', model: 'BasiGo E3', batteryPct: 92, isElectric: true,
+      purchasePrice: 480000, loanOutstanding: 96000, weeklyRepayment: 2900,
+      status: 'active', driverId: driver7.id, routeId: route5.id,
+      regionId: mombasaTown.id, saccoId: coastTuk.id,
+    },
+  })
+
+  // ===== Active trip on v6 (Mombasa Town Run) =====
+  const trip6 = await db.trip.create({
+    data: { vehicleId: v6.id, driverId: driver6.id, status: 'active' },
+  })
+  await db.passengerTrip.createMany({
+    data: [
+      { tripId: trip6.id, passengerPhone: '0722666001', passengerName: 'Mary W.',
+        destinationStageId: stages5[33].id, fare: 1200, paxCount: 1, status: 'onboard',
+        paymentStatus: 'paid', paymentMethod: 'mpesa', mpesaRef: 'TY9M1T2P3Q' },
+      { tripId: trip6.id, passengerPhone: '0722666002', passengerName: 'Tourist (Bamburi)',
+        destinationStageId: stages5[29].id, fare: 500, paxCount: 2, status: 'onboard',
+        paymentStatus: 'paid', paymentMethod: 'nfc' },
+      { tripId: trip6.id, passengerPhone: '0722666003', passengerName: 'Hassan A.',
+        destinationStageId: stages5[25].id, fare: 1000, paxCount: 1, status: 'onboard',
+        paymentStatus: 'paid', paymentMethod: 'mpesa', mpesaRef: 'TY9M2U4R5S' },
+      { tripId: trip6.id, passengerPhone: '0722666004', passengerName: 'Walk-in',
+        destinationStageId: stages5[1].id, fare: 100, paxCount: 1, status: 'onboard',
+        paymentStatus: 'pending', paymentMethod: 'cash' },
+    ],
+  })
+
   console.log('Seed complete.')
-  console.log('  Regions: 2 (Nairobi, Mombasa South Coast)')
-  console.log('  SACCOs: 1 (LITOD - Likoni TukTuk Owners & Drivers SACCO)')
-  console.log('  Drivers: 5')
-  console.log('  Routes: 4')
+  console.log('  Regions: 3 (Nairobi, Mombasa South Coast, Mombasa Town)')
+  console.log('  SACCOs: 2 (LITOD, Coast TukTuk Operators Welfare Group)')
+  console.log('  Drivers: 7')
+  console.log('  Routes: 5')
   console.log('    - Nairobi: CBD-Eastleigh Loop, Eastleigh-Pangani Loop')
-  console.log('    - Mombasa: Ferry-South Coast Run (23 stages from LITOD price list), Kombani-Inland Run')
-  console.log('  Vehicles: 5 (Nairobi KDB 112T/246T, Mombasa KMD 220A/481B/703C)')
+  console.log('    - Mombasa South Coast (LITOD): Ferry-South Coast Run (23 stages), Kombani-Inland Run')
+  console.log('    - Mombasa Town (Coast TukTuk): Mombasa Town Run (40 stages from Coast TukTuk price list)')
+  console.log('  Vehicles: 7 (Nairobi KDB 112T/246T, Mombasa South KMD 220A/481B/703C, Mombasa Town KMD 904D/615E)')
 }
 
 main()

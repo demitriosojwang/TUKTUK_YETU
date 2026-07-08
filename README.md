@@ -68,6 +68,11 @@ Passengers must:
   - Sinai KES 30 · Shelly Beach KES 30 · Kona Mpya KES 40 · Mtongwe KES 40 · Pungu Villa-New York KES 40 · Ujamaa-Fire KES 40 · Shikaadabu KES 50 · H-London-Jara-Gambani KES 50 · Ngombeni-Denyenye KES 60 · Maganya-Kombani KES 70 · Jara-Unik KES 70 · Tiwi KES 100 · **Ukunda KES 150** · Mwabungo KES 200 · Kinondo-Gasi KES 250 · **Msambweni KES 300** · Kona ya Shimoni KES 400 · SGR/Airport Ringgo KES 250/300/500
 - **Kombani – Inland Run** (5 stages, base fare KES 70) — Kwale, Vunga, Simba, Patanani
 
+### Mombasa Town — Coast TukTuk Operators Welfare Group
+- **Mombasa Town Run** (40 stages, base fare KES 40) — full Coast TukTuk Operators Welfare Group price list:
+  - Town Short Distance KES 100 · Pick-up Call KES 150 · Lebanon Roundabout KES 100 · Gulshan/Koja Flats KES 150 · Majengo KES 150 · King'orani Sparki KES 150 · Moons Makande KES 150 · Tudor KES 150 · Tudor Nora KES 200 · Royal Court KES 100 · Railway Station KES 150 · D.T Dobie/Hare Krishna KES 100 · Ganjoni KES 100 · Liwatoni KES 150 · Liwatoni Coca Cola KES 200 · Bondeni/Kilifi KES 100 (peak KES 150) · Coast General/Allidina KES 150 · Kidogo Bus/Biashara Street KES 200 · Shimanzi KES 200 · **Changamwe KES 400** · **Airport KES 700** · Jomvu/Mikindani KES 700 · **Miritini (SGR) KES 1000** · Nyali BP KES 400 · Mamba KES 500 · Reef/Nakumatt Nyali KES 500 · Bamburi Public Beach KES 500 · Kisauni Mwandoni KES 300 · Kisauni Bamburi KES 300 · Shanzu Beach Serena KES 700 · **Mtwapa KES 1200** · Mama Ngina/Ndho Market KES 100 · **Ferry Crossing KES 1200** · Shelly Beach KES 1400 · **Ukunda KES 2500** · Likoni/Chama KES 40 · Lights/Mshoroni Chama KES 40
+  - Waiting charges: KES 50 per 5 minutes
+
 ---
 
 ## 🎨 Design
@@ -143,15 +148,17 @@ Open [http://localhost:3000](http://localhost:3000) to see the app.
 ### Demo Credentials
 
 **Drivers (plate + PIN):**
-| Region | Plate | Driver | PIN |
-|---|---|---|---|
-| Nairobi | KDB 112T | James Mwangi | 1122 |
-| Nairobi | KDB 246T | Aisha Wanjiru | 2233 |
-| Mombasa | KMD 220A | Ervin Mmaitsi (LITOD) | 4455 |
-| Mombasa | KMD 481B | Dennis Njeru (LITOD) | 5566 |
-| Mombasa | KMD 703C | Salim Abdalla (LITOD) | 6677 |
+| Region | Plate | Driver | SACCO | PIN |
+|---|---|---|---|---|
+| Nairobi | KDB 112T | James Mwangi | — | 1122 |
+| Nairobi | KDB 246T | Aisha Wanjiru | — | 2233 |
+| Mombasa South Coast | KMD 220A | Ervin Mmaitsi | LITOD | 4455 |
+| Mombasa South Coast | KMD 481B | Dennis Njeru | LITOD | 5566 |
+| Mombasa South Coast | KMD 703C | Salim Abdalla | LITOD | 6677 |
+| Mombasa Town | KMD 904D | Ali Mohammed | Coast TukTuk | 7788 |
+| Mombasa Town | KMD 615E | Anwari Said | Coast TukTuk | 8899 |
 
-**Passenger flow:** Just enter any of the plates above (e.g. `KDB 112T` or `KMD 220A`) and pick a stage.
+**Passenger flow:** Just enter any of the plates above (e.g. `KDB 112T`, `KMD 220A`, or `KMD 904D`) and pick a stage.
 
 ---
 

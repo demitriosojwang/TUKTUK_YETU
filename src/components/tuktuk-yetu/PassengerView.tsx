@@ -171,23 +171,33 @@ export function PassengerView() {
                 {loadingVehicle ? 'Finding tuk tuk...' : 'Continue'}
               </Button>
 
-              <div className="grid grid-cols-2 gap-2 pt-2">
+              <div className="grid grid-cols-1 gap-2 pt-2">
                 <Button
                   variant="outline"
                   size="sm"
                   className="text-xs"
                   onClick={() => setPlate('KDB 112T')}
                 >
-                  Try: KDB 112T (NBO)
+                  Try: KDB 112T (Nairobi)
                 </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-xs"
-                  onClick={() => setPlate('KMD 220A')}
-                >
-                  Try: KMD 220A (MBA)
-                </Button>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-xs"
+                    onClick={() => setPlate('KMD 220A')}
+                  >
+                    KMD 220A (MBA South)
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="text-xs"
+                    onClick={() => setPlate('KMD 904D')}
+                  >
+                    KMD 904D (MBA Town)
+                  </Button>
+                </div>
               </div>
             </div>
           )}
