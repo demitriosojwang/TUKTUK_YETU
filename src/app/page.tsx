@@ -6,12 +6,20 @@ import { LogoLockup } from '@/components/tuktuk-yetu/Logo'
 import { PassengerView } from '@/components/tuktuk-yetu/PassengerView'
 import { DriverView } from '@/components/tuktuk-yetu/DriverView'
 import { OwnerView } from '@/components/tuktuk-yetu/OwnerView'
+import { ServiceWorkerRegister, InstallPrompt, OfflineIndicator, UpdatePrompt } from '@/components/tuktuk-yetu/PWA'
 import { Bus, User, ChartBar, Flag } from 'lucide-react'
 
 type Role = 'passenger' | 'driver' | 'owner'
 
 export default function Home() {
-  const [role, setRole] = useState<Role>('passenger')
+  // Lazy init from URL ?role= param (used by PWA shortcuts) — safe on client
+  const [role, setRole] = useState<Role>(() => {
+    if (typeof window === 'undefined') return 'passenger'
+    const params = new URLSearchParams(window.location.search)
+    const r = params.get('role')
+    if (r === 'passenger' || r === 'driver' || r === 'owner') return r
+    return 'passenger'
+  })
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(180deg, #FAF6EC 0%, #F4F2EC 100%)' }}>
@@ -62,6 +70,12 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* PWA components — register service worker, show install prompt, offline indicator, update prompt */}
+      <ServiceWorkerRegister />
+      <InstallPrompt />
+      <OfflineIndicator />
+      <UpdatePrompt />
     </div>
   )
 }

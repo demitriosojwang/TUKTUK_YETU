@@ -2,24 +2,86 @@
   "name": "TUKTUK YETU — Fare Collection Made Easy",
   "short_name": "TUKTUK YETU",
   "description": "Kenya's hands-free fare collection platform for electric tuk tuks. Passengers pick their stage and pay via M-Pesa — drivers focus on driving.",
-  "start_url": "/",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#FAF6EC",
   "theme_color": "#006B3F",
   "orientation": "portrait",
-  "categories": ["transport", "finance", "productivity"],
+  "dir": "ltr",
+  "lang": "en",
+  "categories": ["transport", "finance", "productivity", "travel"],
+  "id": "/?source=pwa",
+  "prefer_related_applications": false,
   "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
     {
       "src": "/logo-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/logo-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Board a tuk tuk",
+      "short_name": "Passenger",
+      "description": "Pick your stage and pay via M-Pesa",
+      "url": "/?role=passenger&source=pwa_shortcut",
+      "icons": [{ "src": "/logo-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Driver dashboard",
+      "short_name": "Driver",
+      "description": "Sign in to drive and track passengers",
+      "url": "/?role=driver&source=pwa_shortcut",
+      "icons": [{ "src": "/logo-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Fleet overview",
+      "short_name": "Owner",
+      "description": "View fleet revenue and loan status",
+      "url": "/?role=owner&source=pwa_shortcut",
+      "icons": [{ "src": "/logo-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.jpg",
+      "sizes": "1080x1920",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Passenger view — pick your stage and pay via M-Pesa"
+    },
+    {
+      "src": "/screenshot-desktop.jpg",
+      "sizes": "1920x1080",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Owner view — fleet overview with per-vehicle analytics"
     }
   ]
 }

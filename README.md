@@ -99,6 +99,42 @@ Logo assets in `public/`:
 
 The reusable `<Logo>` and `<LogoLockup>` components in `src/components/tuktuk-yetu/Logo.tsx` wrap the logo in a Kenya-flag-themed circular frame (black ring + white + green inner accent) at four sizes: `sm` (32px), `md` (40px), `lg` (56px), `xl` (80px).
 
+### 📱 PWA (Progressive Web App)
+
+TUKTUK YETU is a full PWA — installable on Android, iOS, and desktop, with offline support so drivers and passengers can keep using the app even with spotty Kenyan mobile data.
+
+**PWA assets in `public/`:**
+- `manifest.json` — full manifest with name, icons, shortcuts (Passenger/Driver/Owner), screenshots, theme color
+- `sw.js` — service worker with three caching strategies:
+  - **App shell (HTML/JS/CSS):** stale-while-revalidate
+  - **Static assets (logos, icons):** cache-first
+  - **API calls (`/api/tuktuk-yetu/*`):** network-first, falls back to cached data when offline
+- `offline.html` — Kenyan-flag-styled offline fallback page with auto-reload when back online
+- `maskable-192.png` + `maskable-512.png` — Android adaptive icons with safe-zone padding
+- `screenshot-mobile.jpg` + `screenshot-desktop.jpg` — shown in the PWA install prompt
+
+**PWA components in `src/components/tuktuk-yetu/PWA.tsx`:**
+- `<ServiceWorkerRegister />` — registers the service worker on mount
+- `<InstallPrompt />` — captures `beforeinstallprompt` and shows a Kenya-flag-styled "Install TUKTUK YETU" banner
+- `<OfflineIndicator />` — shows a red "Offline — showing cached data" badge when the network drops, and a green "Back online" toast when it returns
+- `<UpdatePrompt />` — when a new service worker takes over, offers a reload button
+
+**PWA meta tags** in `src/app/layout.tsx`:
+- `manifest` link
+- `theme-color` (#006B3F for light mode, #004A2B for dark mode)
+- `mobile-web-app-capable` + `apple-mobile-web-app-capable`
+- `apple-mobile-web-app-title: TUKTUK YETU`
+- `apple-mobile-web-app-status-bar-style: black-translucent`
+- `apple-touch-icon`
+- `viewport` with `viewport-fit: cover` for notched devices
+
+**To install:**
+- **Android (Chrome):** open the app → tap the install prompt banner, or menu → "Install app"
+- **iOS (Safari):** tap the Share button → "Add to Home Screen"
+- **Desktop (Chrome/Edge):** click the install icon in the address bar
+
+Once installed, the app opens in its own window (no browser chrome), appears in the app drawer, and works offline. The driver dashboard keeps showing the last cached passenger manifest even with no connectivity — new payments will sync automatically when the network returns.
+
 ---
 
 ## 🛠 Tech Stack
